@@ -142,6 +142,8 @@ def runner(config_file, state_file):
         poll_time = config["poll_interval_sec"]
         sleep_time = int(poll_time + float(poll_time) * (random.random() / 0.25))
         print("Sleeping for {} seconds...".format(sleep_time), end="\n\n")
+        sys.stdout.flush()
+        sys.stderr.flush()
         time.sleep(sleep_time)
 
 
