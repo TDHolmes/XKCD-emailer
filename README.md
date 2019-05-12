@@ -24,4 +24,4 @@ Expects a configuration file called `config.json` that looks like this:
 
 all of the shown fields are required. This program will also create a file
 in it's working directory to keep track of it's current state (most recent comic sent
-out) called `xkcd_mailer_state.json`. Do not modify this file
+out) called `state.json`. Do not modify this file
