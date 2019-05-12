@@ -10,14 +10,11 @@ import random
 import traceback
 import feedparser
 
-# HTML parsing stuff
-from html.parser import HTMLParser
-from html.entities import name2codepoint
-
-# email stuff
 if sys.version[0] == 3:
+    from html.parser import HTMLParser
     import urllib.request as urllib
 else:
+    from HTMLParser import HTMLParser
     import urllib as urllib
 
 from smtplib import SMTP as smtp
