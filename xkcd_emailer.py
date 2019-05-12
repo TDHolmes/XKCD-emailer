@@ -1,4 +1,6 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python
+from __future__ import print_function
+
 import re
 import os
 import sys
@@ -8,14 +10,16 @@ import random
 import traceback
 import feedparser
 
-import pprint  # TODO: delete
-
 # HTML parsing stuff
 from html.parser import HTMLParser
 from html.entities import name2codepoint
 
 # email stuff
-import urllib.request
+if sys.version[0] == 3:
+    import urllib.request as urllib
+else:
+    import urllib as urllib
+
 from smtplib import SMTP as smtp
 from email import encoders
 from email.mime import base, text, multipart
@@ -23,11 +27,8 @@ from email.utils import formatdate
 
 
 class XKCDHTMLParser(HTMLParser):
-    def __init__(self, *args, **kwargs):
-        self.xkcd_data = {}
-        super().__init__(*args, **kwargs)
-
     def handle_starttag(self, tag, attrs):
+        self.xkcd_data = {}
         if tag == "img":
             for attr in attrs:
                 # attributes here are tuples
@@ -108,7 +109,7 @@ Alt Text: {}
     files = []
     try:
         filepath = os.path.join(config["image_folder_path"], str(comic_id) + ".png")
-        urllib.request.urlretrieve(picture_url, filepath)
+        urllib.urlretrieve(picture_url, filepath)
         files.append(filepath)
     except Exception as e:
         print("Unexpected exception when trying to get image! {}".format(e))
@@ -142,7 +143,7 @@ def runner(config_file, state_file):
             print(traceback.format_exc())
 
         poll_time = config["poll_interval_sec"]
-        sleep_time = int(poll_time + poll_time * (random.random() / 0.25))
+        sleep_time = int(poll_time + float(poll_time) * (random.random() / 0.25))
         print("Sleeping for {} seconds...".format(sleep_time), end="\n\n")
         time.sleep(sleep_time)
 
